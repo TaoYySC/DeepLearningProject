@@ -8,7 +8,7 @@ import torchvision
 path = './data'
 
 # define batch_size as 256
-BATCH_SIZE = 256
+BATCH_SIZE = 64
 
 # EPOCH
 EPOCHS = 10

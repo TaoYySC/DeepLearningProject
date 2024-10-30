@@ -25,6 +25,6 @@ class Net(torch.nn.Module):
             torch.nn.Softmax(dim=1)
         )
 
-    def forwad(self, input):
+    def forward(self, input):
         output = self.model(input)
         return output
