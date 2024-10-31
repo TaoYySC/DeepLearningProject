@@ -9,6 +9,7 @@ from tqdm import tqdm
 import torch
 import torchvision
 from Net import Net
+import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     net = Net()
@@ -64,23 +65,23 @@ if __name__ == '__main__':
                 history['Test Loss'].append(testLoss.item())
                 history['Test Accuracy'].append(testAccuracy.item())
                 processBar.set_description("[%d/%d] Loss: %.4f, Acc: %.4f, Test Loss: %.4f, Test Acc: %.4f" %
-                                           (epoch, EPOCHS, loss.item, accuracy.item(), testLoss.item(),
+                                           (epoch, EPOCHS, loss.item(), accuracy.item(), testLoss.item(),
                                             testAccuracy.item()))
 
     # visualize the test loss
-    matplotlib.pyplot.plot(history['Test Loss'], label='Test Loss')
-    matplotlib.pyplot.legend(loc='best')
-    matplotlib.pyplot.grid(True)
-    matplotlib.pyplot.xlabel('Epoch')
-    matplotlib.pyplot.ylabel('Loss')
-    matplotlib.pyplot.show()
+    plt.plot(history['Test Loss'], label='Test Loss')
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.show()
 
     # visualize the test accuracy
-    matplotlib.pyplot.plot(history['Test Accuracy'], color='red', label='Test Accuracy')
-    matplotlib.pyplot.legend(loc='best')
-    matplotlib.pyplot.grid(True)
-    matplotlib.pyplot.xlabel('Epoch')
-    matplotlib.pyplot.ylabel('Accuracy')
-    matplotlib.pyplot.show()
+    plt.plot(history['Test Accuracy'], color='red', label='Test Accuracy')
+    plt.legend(loc='best')
+    plt.grid(True)
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.show()
     torch.save(net, './model.pth')
 
