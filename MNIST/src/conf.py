@@ -5,7 +5,7 @@ import torch
 import torchvision
 
 # data path
-path = './data'
+path = '../data'
 
 # define batch_size as 256
 BATCH_SIZE = 64

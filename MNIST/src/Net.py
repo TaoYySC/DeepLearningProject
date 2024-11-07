@@ -1,4 +1,4 @@
-from conf import path, transform
+from MNIST.MNIST.src.MNIST import path, transform
 import torch
 import torchvision
 

@@ -1,13 +1,8 @@
-import matplotlib
-import pandas as pd
-import numpy as np
-import sklearn
-from conf import path, device, EPOCHS, transform, BATCH_SIZE
-from dataSetPreperation import TrainData, TestData, TrainDataLoader, TestDataLoader
+from MNIST.src.conf import device, EPOCHS, BATCH_SIZE
+from MNIST.MNIST.src.dataSetPreperation import TrainDataLoader, TestDataLoader
 
 from tqdm import tqdm
 import torch
-import torchvision
 from Net import Net
 import matplotlib.pyplot as plt
 
@@ -83,5 +78,5 @@ if __name__ == '__main__':
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
     plt.show()
-    torch.save(net, './model.pth')
+    torch.save(net, '../output/model.pth')
 

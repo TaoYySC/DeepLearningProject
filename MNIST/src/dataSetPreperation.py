@@ -1,4 +1,4 @@
-from conf import path, transform, BATCH_SIZE
+from MNIST.src.conf import path, transform, BATCH_SIZE
 import torch
 import torchvision
 
