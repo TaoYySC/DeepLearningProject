@@ -2,30 +2,10 @@ import torch
 from matplotlib import pyplot as plt
 from torch import nn
 from d2l import torch as d2l
+from Net import Net
+from conf import lr, num_epochs, batch_size
 
-# 构建网络
-net = nn.Sequential(
-    nn.Conv2d(1, 6, kernel_size=5, padding=2), nn.Sigmoid(),
-    nn.AvgPool2d(kernel_size=2, stride=2),
-    nn.Conv2d(6, 16, kernel_size=5), nn.Sigmoid(),
-    nn.AvgPool2d(kernel_size=2, stride=2),
-    nn.Flatten(),
-    nn.Linear(16 * 5 * 5, 120), nn.Sigmoid(),
-    nn.Linear(120, 84), nn.Sigmoid(),
-    nn.Linear(84, 10))
-
-X = torch.rand(size=(1, 1, 28, 28), dtype=torch.float32)
-
-# 逐层打印网络结构
-for layer in net:
-    X = layer(X)
-    print(layer.__class__.__name__,'output shape: \t',X.shape)
-
-# 定义batch_size 加载数据集
-batch_size = 256
-train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size=batch_size)
-
-def evaluate_accuracy_gpu(net, data_iter, device=None): #@save
+def evaluate_accuracy_gpu(net, data_iter, device=None):  # @save
     """使用GPU计算模型在数据集上的精度"""
     if isinstance(net, nn.Module):
         net.eval()  # 设置为评估模式
@@ -44,12 +24,13 @@ def evaluate_accuracy_gpu(net, data_iter, device=None): #@save
             metric.add(d2l.accuracy(net(X), y), y.numel())
     return metric[0] / metric[1]
 
-#@save
-def train_ch6(net, train_iter, test_iter, num_epochs, lr, device):
+def train(net, train_iter, test_iter, num_epochs, lr, device):
     """用GPU训练模型(在第六章定义)"""
+
     def init_weights(m):
         if type(m) == nn.Linear or type(m) == nn.Conv2d:
             nn.init.xavier_uniform_(m.weight)
+
     net.apply(init_weights)
     print('training on', device)
     net.to(device)
@@ -85,7 +66,22 @@ def train_ch6(net, train_iter, test_iter, num_epochs, lr, device):
     print(f'{metric[2] * num_epochs / timer.sum():.1f} examples/sec '
           f'on {str(device)}')
 
-# 设置学习率和迭代次数
-lr, num_epochs = 0.9, 10
-train_ch6(net, train_iter, test_iter, num_epochs, lr, d2l.try_gpu())
-plt.show()
+
+
+if __name__ == '__main__':
+    # 构建网络
+    net = Net()
+
+    X = torch.rand(size=(1, 1, 28, 28), dtype=torch.float32)
+    #
+    # # 逐层打印网络结构
+    # for layer in net:
+    #     X = layer(X)
+    #     print(layer.__class__.__name__, 'output shape: \t', X.shape)
+
+    # 加载数据集
+    train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size=batch_size)
+
+    train(net, train_iter, test_iter, num_epochs, lr, d2l.try_gpu())
+    plt.show()
+
