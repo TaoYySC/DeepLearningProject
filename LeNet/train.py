@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from torch import nn
 from d2l import torch as d2l
 
+# 构建网络
 net = nn.Sequential(
     nn.Conv2d(1, 6, kernel_size=5, padding=2), nn.Sigmoid(),
     nn.AvgPool2d(kernel_size=2, stride=2),
@@ -14,10 +15,13 @@ net = nn.Sequential(
     nn.Linear(84, 10))
 
 X = torch.rand(size=(1, 1, 28, 28), dtype=torch.float32)
+
+# 逐层打印网络结构
 for layer in net:
     X = layer(X)
     print(layer.__class__.__name__,'output shape: \t',X.shape)
 
+# 定义batch_size 加载数据集
 batch_size = 256
 train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size=batch_size)
 
@@ -81,6 +85,7 @@ def train_ch6(net, train_iter, test_iter, num_epochs, lr, device):
     print(f'{metric[2] * num_epochs / timer.sum():.1f} examples/sec '
           f'on {str(device)}')
 
+# 设置学习率和迭代次数
 lr, num_epochs = 0.9, 10
 train_ch6(net, train_iter, test_iter, num_epochs, lr, d2l.try_gpu())
 plt.show()
