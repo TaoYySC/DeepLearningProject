@@ -1,5 +1,5 @@
 from MNIST.src.conf import device, EPOCHS, BATCH_SIZE
-from MNIST.MNIST.src.dataSetPreperation import TrainDataLoader, TestDataLoader
+from MNIST.src.dataSetPreperation import TrainDataLoader, TestDataLoader
 
 from tqdm import tqdm
 import torch

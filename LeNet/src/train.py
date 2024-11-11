@@ -3,7 +3,8 @@ from matplotlib import pyplot as plt
 from torch import nn
 from d2l import torch as d2l
 from Net import Net
-from conf import lr, num_epochs, batch_size
+from LeNet.src.conf import lr, num_epochs, train_iter, test_iter
+
 
 def evaluate_accuracy_gpu(net, data_iter, device=None):  # @save
     """使用GPU计算模型在数据集上的精度"""
@@ -23,6 +24,7 @@ def evaluate_accuracy_gpu(net, data_iter, device=None):  # @save
             y = y.to(device)
             metric.add(d2l.accuracy(net(X), y), y.numel())
     return metric[0] / metric[1]
+
 
 def train(net, train_iter, test_iter, num_epochs, lr, device):
     """用GPU训练模型(在第六章定义)"""
@@ -67,7 +69,6 @@ def train(net, train_iter, test_iter, num_epochs, lr, device):
           f'on {str(device)}')
 
 
-
 if __name__ == '__main__':
     # 构建网络
     net = Net()
@@ -80,8 +81,7 @@ if __name__ == '__main__':
     #     print(layer.__class__.__name__, 'output shape: \t', X.shape)
 
     # 加载数据集
-    train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size=batch_size)
+    # train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size=batch_size)
 
     train(net, train_iter, test_iter, num_epochs, lr, d2l.try_gpu())
     plt.show()
-
